@@ -8,6 +8,17 @@
 <meta property="og:title" content="How much do machine stoppages cost your factory?">
 <meta property="og:description" content="A free calculator from Da'im. Answer a few questions and see the cost of stoppages in pounds, every month and every year. English and Arabic.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://sallamabubakr-lab.github.io/daim-calculator/">
+<meta property="og:image" content="https://sallamabubakr-lab.github.io/daim-calculator/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Da'im Calc">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0c2125">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23a8833c'/%3E%3Cpath d='M20 20c-2.6-3.6-4.9-5.4-7.6-5.4a5.4 5.4 0 1 0 0 10.8c2.7 0 5-1.8 7.6-5.4Zm0 0c2.6 3.6 4.9 5.4 7.6 5.4a5.4 5.4 0 1 0 0-10.8c-2.7 0-5 1.8-7.6 5.4Z' fill='none' stroke='%230c2125' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -252,6 +263,8 @@ input[type="range"] { flex: 1; min-width: 0; height: 32px; accent-color: var(--t
 footer { border-top: 1px solid var(--line); padding-block: 22px 110px; color: var(--muted); font-size: 14px; }
 @media (min-width: 980px) { footer { padding-bottom: 28px; } }
 footer b { color: var(--text); font-weight: 600; }
+.install-btn { display: block; margin-top: 6px; color: var(--teal); font-weight: 600; font-size: 15px; }
+.install-btn:hover { color: var(--ink); }
 
 /* ---------- Phone bar ---------- */
 .bar {
@@ -284,7 +297,7 @@ footer b { color: var(--text); font-weight: 600; }
   .band { background: #fff; color: #000; border-bottom: 2px solid #000; }
   .brand { color: #000; }
   .brand-name span:last-child { color: #000; }
-  .lang-btn, .demo-btn, .hero-log, #tour, .tour-hint, .hero .lead, .form-col, .bar, .actions, .whatif input, .toast, .tag { display: none !important; }
+  .lang-btn, .demo-btn, .hero-log, .install-btn, #tour, .tour-hint, .hero .lead, .form-col, .bar, .actions, .whatif input, .toast, .tag { display: none !important; }
   .hero { padding-block: 6px 12px; }
   .hero h1 { color: #000; font-size: 20pt; }
   .hero .free { color: #000; }
@@ -484,7 +497,8 @@ footer b { color: var(--text); font-weight: 600; }
 </div>
 
 <footer>
-  <div class="wrap"><b data-i18n="footName"></b> <span data-i18n="foot"></span></div>
+  <div class="wrap"><b data-i18n="footName"></b> <span data-i18n="foot"></span>
+    <button type="button" class="link-btn install-btn" id="installBtn" data-i18n="install"></button></div>
 </footer>
 
 <div class="bar off" id="bar">
@@ -553,6 +567,8 @@ var T = {
     modeEstimate: "I know roughly", modeEstimateD: "Answer three quick questions from memory.",
     modeLog: "I don't know my numbers", modeLogD: "Measure them. Tap when a machine stops, tap when it runs again.",
     runDemo: "Run demo",
+    install: "Install this calculator as an app on your phone",
+    installHow: "iPhone: tap the Share button, then “Add to Home Screen”.\n\nAndroid: open the browser menu (⋮), then “Install app” or “Add to Home screen”.",
     heroLogT: "Don't know your numbers?", heroLogD: "Measure them with the free stoppage log.",
     breakdowns: "Breakdowns a month", breakdownsHelp: "Stops that needed a repair before work could continue.",
     avgHours: "Average hours until production runs again", avgHoursHelp: "From the moment the machine stops, including waiting for the technician and the spare part.",
@@ -642,6 +658,8 @@ var T = {
     modeEstimate: "أعرف تقريبًا", modeEstimateD: "أجب عن ثلاثة أسئلة سريعة من الذاكرة.",
     modeLog: "لا أعرف أرقامي", modeLogD: "قِسها. اضغط عند توقف الماكينة، واضغط عند عودتها للعمل.",
     runDemo: "شاهد العرض",
+    install: "ثبّت الحاسبة كتطبيق على هاتفك",
+    installHow: "آيفون: اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».\n\nأندرويد: افتح قائمة المتصفح (⋮) ثم «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».",
     heroLogT: "لا تعرف أرقامك؟", heroLogD: "قِسها بسجل التوقفات المجاني.",
     breakdowns: "عدد الأعطال في الشهر", breakdownsHelp: "التوقفات التي احتاجت إصلاحًا قبل أن يعود العمل.",
     avgHours: "متوسط الساعات حتى يعود الإنتاج", avgHoursHelp: "من لحظة توقف الماكينة، بما فيها انتظار الفني وقطعة الغيار.",
@@ -1128,6 +1146,18 @@ $("shareBtn").addEventListener("click", function () {
     navigator.clipboard.writeText(url).then(function () { toast(t("toastCopied")); }, function () { prompt("", url); });
   } else { prompt("", url); }
 });
+
+/* ---------- install as an app, and work without internet ---------- */
+var installPrompt = null;
+window.addEventListener("beforeinstallprompt", function (ev) { ev.preventDefault(); installPrompt = ev; });
+if ((window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone) $("installBtn").hidden = true;
+window.addEventListener("appinstalled", function () { $("installBtn").hidden = true; });
+$("installBtn").addEventListener("click", function () {
+  if (installPrompt) { installPrompt.prompt(); installPrompt = null; } else alert(t("installHow"));
+});
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+}
 
 /* ---------- stoppage log ---------- */
 var nextId = log.entries.reduce(function (m, e) { return Math.max(m, e.id); }, 0) + 1;

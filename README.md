@@ -10,6 +10,10 @@ There is nothing to install or build. The whole thing is three files:
 | `tour.js` | The guided demo: the story script at the top, the player below it |
 | `tour.css` | The demo's look |
 
+Live at https://sallamabubakr-lab.github.io/daim-calculator/ (served from the `gh-pages` branch; keep it level with `main`).
+
+It can be installed like an app: on a phone, open the link and choose "Add to Home Screen" (iPhone, from the Share button) or "Install app" (Android, from the browser menu). Once opened, it also works without internet. `manifest.json`, `sw.js` and the `icon-*.png` files are what make that work; `og.png` is the picture shown when the link is shared.
+
 ## Settings
 
 Near the top of the script in `index.html`:
