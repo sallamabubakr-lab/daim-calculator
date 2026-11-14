@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stoppage cost calculator | Da'im</title>
+<meta name="description" content="See what machine stoppages cost your factory every month and every year. A free tool from Da'im, in English and Arabic.">
+<meta property="og:title" content="How much do machine stoppages cost your factory?">
+<meta property="og:description" content="A free calculator from Da'im. Answer a few questions and see the cost of stoppages in pounds, every month and every year. English and Arabic.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0c2125">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23a8833c'/%3E%3Cpath d='M20 20c-2.6-3.6-4.9-5.4-7.6-5.4a5.4 5.4 0 1 0 0 10.8c2.7 0 5-1.8 7.6-5.4Zm0 0c2.6 3.6 4.9 5.4 7.6 5.4a5.4 5.4 0 1 0 0-10.8c-2.7 0-5 1.8-7.6 5.4Z' fill='none' stroke='%230c2125' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0c2125;
+  --ink-soft: #16343a;
+  --ink-line: #2a4a50;
+  --teal: #0e5a64;
+  --brass: #a8833c;
+  --brass-bright: #d9b46a;
+  --paper: #f5f6f6;
+  --card: #ffffff;
+  --line: #e1e5e5;
+  --line-strong: #c9d1d1;
+  --text: #0d1f22;
+  --muted: #5c6b6e;
+  --down: #c8372c;
+  --down-bright: #ff7c69;
+  --down-soft: #fbe9e7;
+  --risk-soft: #fbefdd;
+  --risk-ink: #7a4508;
+  --go: #17764d;
+  --on-ink: #eef3f3;
+  --on-ink-muted: #a3b8bb;
+  --font: "IBM Plex Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+}
+html[lang="en"] { --font: "IBM Plex Sans", "IBM Plex Sans Arabic", system-ui, sans-serif; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p { margin: 0; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.num { font-variant-numeric: tabular-nums; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid #3fb5c2; outline-offset: 2px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+
+/* ---------- Top band ---------- */
+.band { background: var(--ink); color: var(--on-ink); }
+.top { display: flex; align-items: center; justify-content: space-between; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+.brand svg { width: 34px; height: 34px; flex: none; }
+.brand-name { font-size: 17px; font-weight: 600; display: flex; gap: 7px; align-items: baseline; line-height: 1; }
+.brand-name span:last-child { color: var(--brass-bright); }
+.lang-btn {
+  background: transparent; color: var(--on-ink); border: 1px solid var(--ink-line);
+  border-radius: 6px; padding: 7px 14px; font-size: 14px; font-weight: 500; min-height: 40px;
+}
+.lang-btn:hover { background: var(--ink-soft); }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.demo-btn {
+  display: inline-flex; align-items: center; gap: 7px; background: var(--brass); color: #1c1503; border: 0;
+  border-radius: 6px; padding: 7px 14px; font-size: 14px; font-weight: 600; min-height: 40px;
+}
+.demo-btn:hover { background: var(--brass-bright); }
+html[dir="rtl"] .demo-btn svg { transform: scaleX(-1); }
+.hero-log {
+  margin-top: 20px; display: inline-flex; align-items: center; gap: 12px; text-align: start;
+  background: var(--ink-soft); color: #fff; border: 1px solid var(--ink-line); border-radius: 10px;
+  padding: 12px 16px; max-width: 100%;
+}
+.hero-log:hover { border-color: var(--brass-bright); }
+.hero-log svg { flex: none; color: var(--brass-bright); }
+.hero-log b { display: block; font-weight: 600; font-size: 16px; line-height: 1.35; }
+.hero-log span { display: block; font-size: 14px; color: var(--on-ink-muted); line-height: 1.4; }
+
+.hero { padding-block: 28px 40px; max-width: 720px; }
+.hero .free { color: var(--brass-bright); font-weight: 500; font-size: 15px; margin-bottom: 10px; }
+.hero h1 { font-size: clamp(30px, 6.2vw, 50px); line-height: 1.22; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+html[lang="ar"] .hero h1 { letter-spacing: 0; line-height: 1.4; }
+.hero .lead { margin-top: 14px; color: var(--on-ink-muted); font-size: 17px; max-width: 56ch; }
+
+/* ---------- Layout ---------- */
+.grid { display: grid; gap: 20px; padding-block: 20px 120px; }
+@media (min-width: 980px) {
+  .grid { grid-template-columns: minmax(0, 1fr) 440px; gap: 28px; align-items: start; padding-block: 28px 64px; }
+  .result-col { position: sticky; top: 16px; }
+}
+
+.example-note {
+  background: var(--risk-soft); color: var(--risk-ink); border-radius: 8px;
+  padding: 10px 14px; font-size: 15px; font-weight: 500; margin-bottom: 16px;
+}
+
+/* ---------- Steps ---------- */
+.step { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px 18px 6px; margin-bottom: 16px; }
+@media (min-width: 640px) { .step { padding: 24px 24px 8px; } }
+.step-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.step-n {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: #fff;
+  display: grid; place-items: center; font-weight: 600; font-size: 15px;
+}
+.step h2 { font-size: 20px; font-weight: 600; line-height: 1.3; }
+.step-sub { color: var(--muted); font-size: 14px; margin-inline-start: auto; }
+
+.field { padding-bottom: 20px; }
+.field label, .field .label { display: block; font-weight: 500; font-size: 16px; line-height: 1.45; }
+.help { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.control { margin-top: 10px; }
+.pair { display: grid; gap: 0 20px; }
+@media (min-width: 640px) { .pair { grid-template-columns: 1fr 1fr; } }
+
+.stepper { display: inline-flex; direction: ltr; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: #fff; }
+.stepper button { width: 48px; height: 48px; border: 0; background: #f0f3f3; font-size: 22px; line-height: 1; color: var(--ink); }
+.stepper button:hover { background: #e4e9e9; }
+.stepper button:active { background: #d7dede; }
+.stepper input { width: 84px; height: 48px; border: 0; border-inline: 1px solid var(--line-strong); text-align: center; font-size: 18px; font-weight: 600; background: #fff; border-radius: 0; }
+.stepper:focus-within { border-color: var(--teal); }
+
+.money { display: flex; align-items: center; direction: ltr; border: 1px solid var(--line-strong); border-radius: 8px; background: #fff; max-width: 280px; overflow: hidden; }
+.money span { padding-inline: 12px; color: var(--muted); font-size: 14px; background: #f0f3f3; align-self: stretch; display: grid; place-items: center; border-inline-end: 1px solid var(--line-strong); }
+.money input { flex: 1; min-width: 0; height: 48px; border: 0; padding-inline: 12px; font-size: 18px; font-weight: 600; background: transparent; }
+.money:focus-within { border-color: var(--teal); }
+
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg button {
+  min-height: 46px; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line-strong);
+  background: #fff; font-weight: 500; font-size: 15px; flex: 1 1 auto;
+}
+.seg button:hover { border-color: var(--teal); }
+.seg button[aria-checked="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+.seg.choice { gap: 10px; }
+.seg.choice button { flex: 1 1 230px; text-align: start; padding: 14px 16px; border-width: 2px; }
+.seg.choice b { display: block; font-size: 17px; font-weight: 600; line-height: 1.35; }
+.seg.choice span { display: block; font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.45; margin-top: 2px; }
+.seg.choice button[aria-checked="true"] span { color: #cfe6e8; }
+
+.range-row { display: flex; align-items: center; gap: 14px; }
+.range-row output { flex: none; min-width: 92px; font-weight: 600; font-size: 17px; }
+input[type="range"] { flex: 1; min-width: 0; height: 32px; accent-color: var(--teal); }
+
+.inline-fact { color: var(--teal); font-weight: 500; font-size: 15px; padding-bottom: 18px; }
+.warn { background: var(--down-soft); color: #8c2219; border-radius: 8px; padding: 10px 14px; font-size: 15px; margin-bottom: 18px; }
+
+/* ---------- Stoppage log ---------- */
+.log-box { border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 20px; background: #fafbfb; }
+.log-box > p { font-size: 15px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 18px; border-radius: 8px; border: 1px solid transparent; font-weight: 600; font-size: 16px; text-decoration: none; text-align: center; }
+.btn-stop { background: var(--down); color: #fff; width: 100%; margin-top: 12px; }
+.btn-stop:hover { background: #b12f25; }
+.btn-run { background: var(--go); color: #fff; width: 100%; margin-top: 12px; }
+.btn-quiet { background: #fff; border-color: var(--line-strong); color: var(--ink); }
+.btn-quiet:hover { border-color: var(--teal); }
+.timer { margin-top: 12px; background: var(--down-soft); border-radius: 8px; padding: 14px; text-align: center; }
+.timer .clock { font-size: 34px; font-weight: 700; color: var(--down); direction: ltr; line-height: 1.2; }
+.timer .since { font-size: 14px; color: #8c2219; }
+.log-add { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.log-add h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+.log-add-row { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+.log-add-row .full { grid-column: 1 / -1; }
+.log-add label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 3px; font-weight: 500; }
+.log-add input { width: 100%; height: 46px; border: 1px solid var(--line-strong); border-radius: 8px; padding-inline: 12px; background: #fff; font-size: 16px; }
+.log-add input:focus { border-color: var(--teal); }
+.log-err { color: #8c2219; font-size: 14px; margin-top: 8px; }
+.log-list { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--line); max-height: 260px; overflow: auto; }
+.log-list li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.log-list .when { color: var(--muted); flex: none; min-width: 62px; }
+.log-list .what { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.log-list .dur { font-weight: 600; flex: none; }
+.log-list button { flex: none; width: 36px; height: 36px; border-radius: 6px; border: 0; background: transparent; color: var(--muted); font-size: 20px; line-height: 1; }
+.log-list button:hover { background: var(--down-soft); color: var(--down); }
+.log-sum { margin-top: 14px; font-size: 15px; }
+.log-sum strong { font-weight: 600; }
+.log-foot { margin-top: 10px; }
+.link-btn { background: none; border: 0; padding: 6px 0; color: var(--muted); text-decoration: underline; font-size: 14px; }
+.link-btn:hover { color: var(--down); }
+
+/* ---------- Result ---------- */
+.result { background: var(--ink); color: var(--on-ink); border-radius: 12px; padding: 22px 18px; }
+@media (min-width: 640px) { .result { padding: 26px 24px; } }
+.tag { display: inline-block; background: var(--brass); color: #1c1503; font-size: 13px; font-weight: 600; padding: 2px 10px; border-radius: 4px; margin-bottom: 10px; }
+.result .kicker { color: var(--on-ink-muted); font-size: 16px; }
+.total { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; line-height: 1.1; }
+.total .fig { font-size: clamp(40px, 11vw, 56px); font-weight: 700; color: var(--down-bright); letter-spacing: -0.02em; direction: ltr; }
+.total .unit { font-size: 18px; font-weight: 500; color: var(--on-ink); }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 18px; border-top: 1px solid var(--ink-line); border-bottom: 1px solid var(--ink-line); }
+.stats > div { padding: 12px 10px; border-inline-end: 1px solid var(--ink-line); }
+.stats > div:first-child { padding-inline-start: 0; }
+.stats > div:last-child { border-inline-end: 0; padding-inline-end: 0; }
+.stats b { display: block; font-size: 18px; font-weight: 600; color: #fff; line-height: 1.3; }
+.stats span { display: block; font-size: 13px; color: var(--on-ink-muted); line-height: 1.4; margin-top: 2px; }
+
+.block { margin-top: 22px; }
+.block h3 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+.board { display: grid; grid-template-columns: repeat(auto-fill, minmax(24px, 1fr)); gap: 5px; max-width: 100%; }
+.cell { position: relative; aspect-ratio: 1; border-radius: 4px; background: #24474d; overflow: hidden; }
+.cell i { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--down-bright); transition: inline-size .35s ease; }
+.board-cap { margin-top: 10px; font-size: 15px; color: var(--on-ink-muted); }
+.board-cap b { color: #fff; font-weight: 600; }
+
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li { margin-bottom: 12px; }
+.rows .line { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.rows .line span:first-child { color: var(--on-ink); }
+.rows .line span:last-child { font-weight: 600; color: #fff; flex: none; }
+.track { height: 8px; background: #1d3d43; border-radius: 4px; margin-top: 5px; overflow: hidden; }
+.track i { display: block; height: 100%; background: var(--down-bright); border-radius: 4px; transition: width .35s ease; }
+
+.notes { list-style: none; margin: 0; padding: 0; font-size: 15px; color: var(--on-ink-muted); }
+.notes li { padding: 8px 0; border-top: 1px solid var(--ink-line); }
+.notes li:first-child { border-top: 0; padding-top: 0; }
+.notes b { color: #fff; font-weight: 600; }
+
+.whatif { background: var(--ink-soft); border-radius: 10px; padding: 16px; }
+.whatif .q { font-size: 16px; color: var(--on-ink); }
+.whatif .q b { color: #fff; }
+.whatif input[type="range"] { width: 100%; accent-color: var(--brass-bright); margin-top: 6px; }
+.whatif .save { margin-top: 6px; font-size: 16px; color: var(--on-ink); }
+.whatif .save b { display: block; font-size: 28px; font-weight: 700; color: #7fdcae; line-height: 1.3; }
+.whatif .how { margin-top: 8px; font-size: 14px; color: var(--on-ink-muted); }
+
+.actions { display: grid; gap: 10px; margin-top: 22px; }
+.btn-wa { background: #1f9d63; color: #fff; }
+.btn-wa:hover { background: #1a8754; }
+.btn-ghost { background: transparent; border-color: var(--ink-line); color: var(--on-ink); font-weight: 500; }
+.btn-ghost:hover { background: var(--ink-soft); }
+.actions-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fine { margin-top: 14px; font-size: 13px; color: var(--on-ink-muted); }
+
+/* ---------- Method, footer ---------- */
+.method { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 16px; }
+.method summary { padding: 16px 18px; font-weight: 600; cursor: pointer; font-size: 16px; }
+.method ol { margin: 0; padding: 0 18px 16px; padding-inline-start: 38px; color: #2c3f43; font-size: 15px; }
+.method li { margin-bottom: 8px; }
+.form-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+.form-foot .link-btn:hover { color: var(--teal); }
+footer { border-top: 1px solid var(--line); padding-block: 22px 110px; color: var(--muted); font-size: 14px; }
+@media (min-width: 980px) { footer { padding-bottom: 28px; } }
+footer b { color: var(--text); font-weight: 600; }
+
+/* ---------- Phone bar ---------- */
+.bar {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 20; background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--ink-line); transition: transform .25s ease;
+}
+.bar.off { transform: translateY(110%); }
+.bar .bar-l span { display: block; font-size: 12px; color: var(--on-ink-muted); line-height: 1.3; }
+.bar .bar-l b { font-size: 20px; font-weight: 700; color: var(--down-bright); line-height: 1.3; }
+.bar a { flex: none; background: #fff; color: var(--ink); border-radius: 8px; padding: 10px 14px; font-weight: 600; font-size: 15px; text-decoration: none; }
+@media (min-width: 980px) { .bar { display: none; } }
+
+.toast {
+  position: fixed; inset-inline: 16px; bottom: 84px; z-index: 30; margin-inline: auto; max-width: 360px;
+  background: #fff; color: var(--text); border: 1px solid var(--line-strong); border-radius: 8px;
+  padding: 12px 16px; text-align: center; font-weight: 500; box-shadow: 0 8px 28px rgba(12, 33, 37, .22);
+}
+
+.print-only { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+@media print {
+  body { background: #fff; font-size: 12pt; }
+  .band { background: #fff; color: #000; border-bottom: 2px solid #000; }
+  .brand { color: #000; }
+  .brand-name span:last-child { color: #000; }
+  .lang-btn, .demo-btn, .hero-log, #tour, .tour-hint, .hero .lead, .form-col, .bar, .actions, .whatif input, .toast, .tag { display: none !important; }
+  .hero { padding-block: 6px 12px; }
+  .hero h1 { color: #000; font-size: 20pt; }
+  .hero .free { color: #000; }
+  .grid { display: block; padding: 12px 0; }
+  .result-col { position: static; }
+  .result { background: #fff; color: #000; padding: 0; border-radius: 0; }
+  .result .kicker, .stats span, .board-cap, .notes, .fine, .whatif .how, .whatif .q, .whatif .save, .rows .line span:first-child, .total .unit { color: #222; }
+  .total .fig { color: #b3261b; }
+  .stats b, .block h3, .rows .line span:last-child, .board-cap b, .notes b, .whatif .q b { color: #000; }
+  .stats, .stats > div, .notes li { border-color: #bbb; }
+  .cell { background: #e3e7e7; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cell i, .track i { background: #c8372c; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .track { background: #e3e7e7; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .whatif { background: #fff; border: 1px solid #bbb; }
+  .whatif .save b { color: #17764d; }
+  .board { max-width: 420px; }
+  .print-only { display: block; margin-top: 18px; }
+  .print-only h3 { font-size: 12pt; margin-bottom: 6px; }
+  .print-only table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+  .print-only td { border-bottom: 1px solid #ccc; padding: 4px 0; }
+  .print-only td:last-child { text-align: end; font-weight: 600; }
+  footer { padding: 10px 0; }
+  .block, .print-only { break-inside: avoid; }
+}
+</style>
+<link rel="stylesheet" href="tour.css">
+</head>
+<body>
+
+<div class="band">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#a8833c"/><path d="M20 20c-2.6-3.6-4.9-5.4-7.6-5.4a5.4 5.4 0 1 0 0 10.8c2.7 0 5-1.8 7.6-5.4Zm0 0c2.6 3.6 4.9 5.4 7.6 5.4a5.4 5.4 0 1 0 0-10.8c-2.7 0-5 1.8-7.6 5.4Z" fill="none" stroke="#0c2125" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="brand-name"><span lang="en">Da&rsquo;im</span><span lang="ar">دائم</span></div>
+      </div>
+      <div class="top-actions">
+        <button class="demo-btn" id="demoBtn" type="button"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 4.5v15l12.500-7.500z" fill="currentColor"/></svg><span data-i18n="runDemo"></span></button>
+        <button class="lang-btn" id="langBtn" type="button"></button>
+      </div>
+    </div>
+    <div class="hero">
+      <p class="free" data-i18n="free"></p>
+      <h1 data-i18n="h1"></h1>
+      <p class="lead" data-i18n="lead"></p>
+      <button class="hero-log" id="heroLog" type="button">
+        <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9.500v4.200l2.800 1.700M9.500 2.500h5M12 2.500V6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><b data-i18n="heroLogT"></b><span data-i18n="heroLogD"></span></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <main class="grid">
+    <div class="form-col">
+      <p class="example-note" id="exampleNote" data-i18n="exampleNote"></p>
+
+      <section class="step" id="step1" aria-labelledby="s1">
+        <div class="step-head"><span class="step-n num">1</span><h2 id="s1" data-i18n="s1"></h2></div>
+        <div class="pair">
+          <div class="field" data-field="days"></div>
+          <div class="field" data-field="shifts"></div>
+        </div>
+        <div class="field" data-field="hours"></div>
+        <p class="inline-fact" id="factHours"></p>
+      </section>
+
+      <section class="step" id="step2" aria-labelledby="s2">
+        <div class="step-head"><span class="step-n num">2</span><h2 id="s2" data-i18n="s2"></h2></div>
+        <div class="field">
+          <span class="label" id="modeLabel" data-i18n="mode"></span>
+          <div class="control seg choice" role="radiogroup" aria-labelledby="modeLabel" data-seg="mode">
+            <button type="button" role="radio" data-val="estimate"><b data-i18n="modeEstimate"></b><span data-i18n="modeEstimateD"></span></button>
+            <button type="button" role="radio" data-val="log"><b data-i18n="modeLog"></b><span data-i18n="modeLogD"></span></button>
+          </div>
+        </div>
+
+        <div id="estimateBox">
+          <div class="pair">
+            <div class="field" data-field="breakdowns"></div>
+            <div class="field" data-field="avgHours"></div>
+          </div>
+          <div class="field" data-field="smallMin"></div>
+        </div>
+
+        <div id="logBox" class="log-box" hidden>
+          <p data-i18n="logIntro"></p>
+          <button type="button" class="btn btn-stop" id="logStart" data-i18n="logStart"></button>
+          <div class="timer" id="logTimer" hidden>
+            <div class="since" data-i18n="logRunning"></div>
+            <div class="clock num" id="logClock">00:00:00</div>
+            <button type="button" class="btn btn-run" id="logStop" data-i18n="logStop"></button>
+          </div>
+          <div class="log-add">
+            <h3 data-i18n="logAddTitle"></h3>
+            <div class="log-add-row">
+              <div><label for="logDate" data-i18n="logDate"></label><input type="date" id="logDate"></div>
+              <div><label for="logMin" data-i18n="logMin"></label><input type="text" inputmode="numeric" id="logMin" autocomplete="off"></div>
+              <div class="full"><label for="logNote" data-i18n="logNote"></label><input type="text" id="logNote" maxlength="60" autocomplete="off"></div>
+              <div class="full"><button type="button" class="btn btn-quiet" id="logAdd" data-i18n="logAdd"></button></div>
+            </div>
+            <p class="log-err" id="logErr" hidden></p>
+          </div>
+          <ul class="log-list" id="logList"></ul>
+          <p class="log-sum" id="logSum"></p>
+          <div class="log-foot"><button type="button" class="link-btn" id="logClear" data-i18n="logClear" hidden></button></div>
+        </div>
+
+        <div class="field" data-field="share"></div>
+        <p class="warn" id="warnOver" data-i18n="warnOver" hidden></p>
+      </section>
+
+      <section class="step" id="step3" aria-labelledby="s3">
+        <div class="step-head"><span class="step-n num">3</span><h2 id="s3" data-i18n="s3"></h2></div>
+        <div id="worthBox">
+          <div class="field" data-field="sales"></div>
+          <div class="field" data-field="material"></div>
+        </div>
+        <div class="pair">
+          <div class="field" data-field="workers"></div>
+          <div class="field" data-field="wage"></div>
+        </div>
+        <div class="field" data-field="recover"></div>
+      </section>
+
+      <section class="step" id="step4" aria-labelledby="s4">
+        <div class="step-head"><span class="step-n num">4</span><h2 id="s4" data-i18n="s4"></h2><span class="step-sub" data-i18n="optional"></span></div>
+        <div class="field" data-field="repair"></div>
+        <div class="field" data-field="scrap"></div>
+        <div class="field" data-field="penalty"></div>
+      </section>
+
+      <details class="method">
+        <summary data-i18n="methodTitle"></summary>
+        <ol id="methodList"></ol>
+      </details>
+
+      <div class="form-foot">
+        <span data-i18n="privacy"></span>
+        <button type="button" class="link-btn" id="resetBtn" data-i18n="reset"></button>
+      </div>
+    </div>
+
+    <div class="result-col">
+      <section class="result" id="result" aria-live="polite" aria-atomic="false">
+        <span class="tag" id="exampleTag" data-i18n="exampleTag"></span>
+        <p class="kicker" data-i18n="kicker"></p>
+        <div id="headline">
+        <div class="total"><span class="fig num" id="figYear">0</span><span class="unit" id="unitYear"></span></div>
+
+        <div class="stats">
+          <div><b class="num" id="stMonth"></b><span data-i18n="stMonth"></span></div>
+          <div><b class="num" id="stHour"></b><span data-i18n="stHour"></span></div>
+          <div><b class="num" id="stPct"></b><span data-i18n="stPct"></span></div>
+        </div>
+        </div>
+
+        <div class="block" id="boardBlock">
+          <h3 data-i18n="boardTitle"></h3>
+          <div class="board" id="board" aria-hidden="true"></div>
+          <p class="board-cap" id="boardCap"></p>
+        </div>
+
+        <div class="block" id="rowsBlock">
+          <h3 data-i18n="rowsTitle"></h3>
+          <ul class="rows" id="rows"></ul>
+        </div>
+
+        <div class="block" id="notesBlock">
+          <ul class="notes" id="notes"></ul>
+        </div>
+
+        <div class="block whatif" id="whatif">
+          <p class="q" id="wiQ"></p>
+          <input type="range" id="wiRange" min="10" max="50" step="5" value="30">
+          <p class="save"><span data-i18n="wiSave"></span><b class="num" id="wiFig"></b></p>
+          <p class="how" data-i18n="wiHow"></p>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener"></a>
+          <div class="actions-2">
+            <button type="button" class="btn btn-ghost" id="printBtn" data-i18n="print"></button>
+            <button type="button" class="btn btn-ghost" id="shareBtn" data-i18n="shareCalc"></button>
+          </div>
+        </div>
+        <p class="fine" data-i18n="fine"></p>
+
+        <div class="print-only">
+          <h3 data-i18n="answersTitle"></h3>
+          <table id="answers"></table>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap"><b data-i18n="footName"></b> <span data-i18n="foot"></span></div>
+</footer>
+
+<div class="bar off" id="bar">
+  <div class="bar-l"><span data-i18n="barLabel"></span><b class="num" id="barFig"></b></div>
+  <a href="#result" data-i18n="barBtn"></a>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+/* ------------------------------------------------------------------
+   Settings you can change
+   whatsappNumber: Da'im's WhatsApp number in international format,
+   digits only, for example "201001234567". While it is empty, the
+   green button lets the visitor share the result with any contact.
+------------------------------------------------------------------- */
+var CONFIG = {
+  whatsappNumber: "20122406300"
+};
+
+var OVERTIME_RATE = 1.35;
+var BREAKDOWN_MIN = 30;          // log entries this long or longer count as breakdowns
+var MONTH_DAYS = 365 / 12;
+var LOG_MIN_DAYS = 7;             // the log replaces the estimate once it covers this many days
+var STORE_KEY = "daim-calc-v1";
+
+var DEFAULTS = {
+  days: 6, shifts: 1, hours: 8,
+  mode: "estimate", breakdowns: 4, avgHours: 3, smallMin: 15, share: 0.5,
+  sales: 1500000, material: 55, workers: 20, wage: 8000, recover: 0,
+  repair: 5000, scrap: 1500, penalty: 0,
+  whatif: 30, touched: false
+};
+
+var FIELDS = {
+  days:       { type: "stepper", min: 1, max: 7, inc: 1 },
+  shifts:     { type: "seg", opts: [[1, "1"], [2, "2"], [3, "3"]] },
+  hours:      { type: "stepper", min: 1, max: 24, inc: 1 },
+  breakdowns: { type: "stepper", min: 0, max: 300, inc: 1, help: true },
+  avgHours:   { type: "stepper", min: 0, max: 72, inc: 0.5, help: true },
+  smallMin:   { type: "stepper", min: 0, max: 480, inc: 5, help: true },
+  share:      { type: "seg", opts: [[1, "optAll"], [0.5, "optHalf"], [0.25, "optQuarter"]], i18nOpts: true, help: true },
+  sales:      { type: "money", min: 0, max: 1e11 },
+  material:   { type: "range", min: 0, max: 95, inc: 5, help: true },
+  workers:    { type: "stepper", min: 1, max: 5000, inc: 1 },
+  wage:       { type: "money", min: 0, max: 1e7 },
+  recover:    { type: "seg", opts: [[0, "optNo"], [0.5, "optHalf"], [1, "optAll"]], i18nOpts: true, help: true },
+  repair:     { type: "money", min: 0, max: 1e9, help: true },
+  scrap:      { type: "money", min: 0, max: 1e9, help: true },
+  penalty:    { type: "money", min: 0, max: 1e10, help: true }
+};
+
+var T = {
+  en: {
+    title: "Stoppage cost calculator | Da'im",
+    langBtn: "العربية",
+    free: "A free tool from Da'im",
+    h1: "How much do machine stoppages cost your factory?",
+    lead: "Answer a few questions about your factory and see the cost in pounds, every month and every year. It takes about two minutes, and nothing you type leaves your device.",
+    exampleNote: "These are example numbers. Replace them with your own.",
+    exampleTag: "Example numbers",
+    s1: "Your working time", s2: "Your stoppages", s3: "What an hour of production is worth", s4: "Costs on top of lost production",
+    optional: "Leave at 0 if not sure",
+    days: "Working days a week", shifts: "Shifts a day", hours: "Hours in a shift",
+    factHours: "That is about {h} working hours a month.",
+    mode: "Do you know how often your machines stop?",
+    modeEstimate: "I know roughly", modeEstimateD: "Answer three quick questions from memory.",
+    modeLog: "I don't know my numbers", modeLogD: "Measure them. Tap when a machine stops, tap when it runs again.",
+    runDemo: "Run demo",
+    heroLogT: "Don't know your numbers?", heroLogD: "Measure them with the free stoppage log.",
+    breakdowns: "Breakdowns a month", breakdownsHelp: "Stops that needed a repair before work could continue.",
+    avgHours: "Average hours until production runs again", avgHoursHelp: "From the moment the machine stops, including waiting for the technician and the spare part.",
+    smallMin: "Small stops in each shift, in minutes", smallMinHelp: "Jams, adjustments, waiting for material. Usually nobody writes these down.",
+    share: "When a machine stops, how much of your production stops with it?", shareHelp: "If one machine feeds the whole line, choose all of it.",
+    optAll: "All of it", optHalf: "About half", optQuarter: "About a quarter", optNo: "No",
+    sales: "Sales in a normal month", material: "Out of every 100 pounds of sales, how much goes on raw materials and packaging?",
+    materialHelp: "Materials you do not use during a stoppage are not a loss, so they are taken out.",
+    materialOut: "{v} of 100",
+    workers: "Production workers per shift", wage: "Average monthly pay per worker",
+    recover: "Do you make up the lost production later with overtime?", recoverHelp: "If you catch up, you keep the sales but pay for the overtime.",
+    repair: "Average repair bill per breakdown", repairHelp: "Spare parts and outside technicians.",
+    scrap: "Material wasted per breakdown", scrapHelp: "Product spoiled when the machine stops or restarts.",
+    penalty: "Late-delivery penalties or lost orders a month", penaltyHelp: "Only what stoppages caused.",
+    warnOver: "Your stoppages add up to more hours than the factory works in a month. Check the numbers above. The result is capped at your working hours.",
+    dec: "Decrease", inc: "Increase", egp: "EGP",
+    kicker: "Stoppages cost your factory about",
+    unitYear: "EGP a year",
+    stMonth: "every month", stHour: "for each stopped hour", stPct: "of your sales",
+    boardTitle: "Your month on the factory floor",
+    boardCap: "Each square is one working day. The red is production lost to stoppages: <b>{d} {dw} every month</b>, {y} a year.",
+    boardCapZero: "Each square is one working day. With no stoppages, no day is lost.",
+    rowsTitle: "Where the money goes each month",
+    rMargin: "Sales you could not make, after materials", rOvertime: "Overtime to catch up", rRepairs: "Emergency repairs", rScrap: "Wasted material", rPenalty: "Penalties and lost orders",
+    rowsEmpty: "No stoppage costs with these numbers.",
+    nHours: "Your machines are stopped about <b>{h} hours a month</b>. On those machines, that is {p}% of working time.",
+    nSmall: "Small stops are <b>{p}%</b> of your stopped time ({h} hours a month). They rarely appear in any report.",
+    nIdle: "During stoppages you pay about <b>{m}</b> a month in wages to workers who are waiting. This is not added to the total, so nothing is counted twice.",
+    nLog: "Based on your stoppage log: {n} {sw} over {d} days.",
+    nLogEarly: "Your log covers {d} of 7 days. Until it is complete, this result uses your estimate.",
+    nLogEmpty: "Your log is empty, so this result uses your estimate.",
+    wiQ: "If stoppages fell by <b>{p}%</b>",
+    wiSave: "you would keep about",
+    wiYear: "{m} a year",
+    wiHow: "Planned maintenance is how factories get there. That is the work Da'im does.",
+    waTalk: "Send my result to Da'im on WhatsApp", waShare: "Share my result on WhatsApp",
+    print: "Print or save PDF", shareCalc: "Share the calculator",
+    fine: "An estimate from your answers, not an audit. Your numbers are saved only on this device.",
+    methodTitle: "How this is calculated",
+    method: [
+      "Working hours a month = days a week × shifts a day × hours in a shift × 52 ÷ 12.",
+      "Stopped hours a month = breakdowns × average hours each, plus small stops per shift × shifts in a month. With the stoppage log, it is the time you logged, scaled to a full month.",
+      "Lost production hours = stopped hours × the share of your production that stops.",
+      "One hour of production is worth your monthly sales ÷ working hours, minus the materials you did not use. Wages are not taken out, because you pay them whether the machine runs or not.",
+      "Production you make up with overtime is not counted as lost sales. Its cost is the overtime pay, taken at 1.35 times normal pay.",
+      "Repairs and wasted material = cost per breakdown × breakdowns a month. Penalties are added as you entered them.",
+      "The yearly figure is 12 months at this rate."
+    ],
+    privacy: "Nothing you type is sent anywhere.",
+    reset: "Start again with the example",
+    resetAsk: "Replace your numbers with the example numbers? Your stoppage log is kept.",
+    footName: "Da'im.", foot: "Maintenance management for factories. Expert knowledge, delivered to your technicians.",
+    barLabel: "Cost of stoppages", barYear: "{m} a year", barBtn: "See details",
+    logIntro: "Tap the button whenever a machine stops, and again when it runs. After a week you will have a real figure instead of a guess.",
+    logStart: "A machine just stopped", logRunning: "Stopped for", logStop: "It is running again",
+    logAddTitle: "Or add a stoppage that already happened",
+    logDate: "Date", logMin: "Minutes stopped", logNote: "Machine or reason (optional)", logAdd: "Add to the log",
+    logErrMin: "Enter how many minutes the machine was stopped.", logErrDate: "Choose a date that is today or earlier.",
+    logEmpty: "No stoppages logged yet. Until your log covers 7 days, the result uses your estimate.",
+    logSum: "<strong>{d} {dw}</strong> logged, <strong>{h} hours</strong> stopped, {b} {bw} of 30 minutes or more. At this rate: <strong>{m} hours a month</strong>.",
+    logShort: " The result switches to your log once it covers 7 days.",
+    logClear: "Clear the log", logClearAsk: "Delete every stoppage in the log?",
+    logDelete: "Delete", logUnnamed: "Stoppage",
+    durMin: "{m} min", durHour: "{h} h {m} min",
+    toastCopied: "Link copied", toastAdded: "Added to the log",
+    waMsgTalk: "Hello, I used the Da'im stoppage cost calculator.\nOur machines are stopped about {h} hours a month, and it costs about EGP {y} a year.\nI would like to know how to reduce this.",
+    waMsgShare: "I calculated what machine stoppages cost our factory: about EGP {y} a year.\nTry the calculator: {u}",
+    shareText: "A free calculator that shows what machine stoppages cost your factory.",
+    answersTitle: "Your answers",
+    aSource: "Stoppages counted by", aSourceEst: "Estimate", aSourceLog: "Stoppage log",
+    aStopped: "Stopped hours a month",
+    wDay: ["day", "days"], wWorkDay: ["working day", "working days"], wBreakdown: ["breakdown", "breakdowns"], wStoppage: ["stoppage", "stoppages"]
+  },
+  ar: {
+    title: "حاسبة تكلفة التوقفات | دائم",
+    langBtn: "English",
+    free: "أداة مجانية من دائم",
+    h1: "كم يكلّف توقف الماكينات مصنعك؟",
+    lead: "أجب عن أسئلة قليلة عن مصنعك لترى التكلفة بالجنيه كل شهر وكل سنة. يستغرق دقيقتين تقريبًا، وكل ما تكتبه يبقى على جهازك.",
+    exampleNote: "هذه أرقام مثال. ضع مكانها أرقام مصنعك.",
+    exampleTag: "أرقام مثال",
+    s1: "وقت التشغيل", s2: "التوقفات", s3: "قيمة ساعة الإنتاج", s4: "تكاليف فوق الإنتاج الضائع",
+    optional: "اتركها 0 إن لم تكن متأكدًا",
+    days: "أيام العمل في الأسبوع", shifts: "عدد الورديات في اليوم", hours: "عدد ساعات الوردية",
+    factHours: "يعني حوالي {h} ساعة تشغيل في الشهر.",
+    mode: "هل تعرف كم مرة تتوقف ماكيناتك؟",
+    modeEstimate: "أعرف تقريبًا", modeEstimateD: "أجب عن ثلاثة أسئلة سريعة من الذاكرة.",
+    modeLog: "لا أعرف أرقامي", modeLogD: "قِسها. اضغط عند توقف الماكينة، واضغط عند عودتها للعمل.",
+    runDemo: "شاهد العرض",
+    heroLogT: "لا تعرف أرقامك؟", heroLogD: "قِسها بسجل التوقفات المجاني.",
+    breakdowns: "عدد الأعطال في الشهر", breakdownsHelp: "التوقفات التي احتاجت إصلاحًا قبل أن يعود العمل.",
+    avgHours: "متوسط الساعات حتى يعود الإنتاج", avgHoursHelp: "من لحظة توقف الماكينة، بما فيها انتظار الفني وقطعة الغيار.",
+    smallMin: "التوقفات الصغيرة في كل وردية، بالدقائق", smallMinHelp: "تعليق، ضبط، انتظار خامة. غالبًا لا يسجّلها أحد.",
+    share: "عندما تتوقف ماكينة، كم يتوقف من إنتاجك معها؟", shareHelp: "إذا كانت ماكينة واحدة تغذّي الخط كله، اختر «كله».",
+    optAll: "كله", optHalf: "حوالي النصف", optQuarter: "حوالي الربع", optNo: "لا",
+    sales: "مبيعات الشهر العادي", material: "من كل 100 جنيه مبيعات، كم يذهب للخامات والتعبئة؟",
+    materialHelp: "الخامات التي لا تستخدمها وقت التوقف ليست خسارة، لذلك نخصمها.",
+    materialOut: "{v} من 100",
+    workers: "عدد عمال الإنتاج في الوردية", wage: "متوسط أجر العامل في الشهر",
+    recover: "هل تعوّضون الإنتاج الضائع لاحقًا بساعات إضافية؟", recoverHelp: "إذا عوّضتم، تحتفظون بالمبيعات لكن تدفعون أجر الساعات الإضافية.",
+    repair: "متوسط فاتورة الإصلاح لكل عطل", repairHelp: "قطع الغيار والفنيون من خارج المصنع.",
+    scrap: "قيمة الخامات المهدرة مع كل عطل", scrapHelp: "منتج يتلف عند توقف الماكينة أو إعادة تشغيلها.",
+    penalty: "غرامات التأخير أو الطلبات الضائعة في الشهر", penaltyHelp: "ما سبّبته التوقفات فقط.",
+    warnOver: "مجموع التوقفات أكبر من ساعات عمل المصنع في الشهر. راجع الأرقام أعلاه. النتيجة محسوبة بحد أقصى ساعات التشغيل.",
+    dec: "أقل", inc: "أكثر", egp: "جنيه",
+    kicker: "التوقفات تكلّف مصنعك حوالي",
+    unitYear: "جنيه في السنة",
+    stMonth: "كل شهر", stHour: "لكل ساعة توقف", stPct: "من مبيعاتك",
+    boardTitle: "شهرك في المصنع",
+    boardCap: "كل مربع يوم عمل. الأحمر إنتاج ضائع بسبب التوقفات: <b>ما يعادل {d} {dw} كل شهر</b>، أي {y} في السنة.",
+    boardCapZero: "كل مربع يوم عمل. بدون توقفات لا يضيع أي يوم.",
+    rowsTitle: "أين تذهب الأموال كل شهر",
+    rMargin: "مبيعات لم تتحقق، بعد خصم الخامات", rOvertime: "ساعات إضافية للتعويض", rRepairs: "إصلاحات طارئة", rScrap: "خامات مهدرة", rPenalty: "غرامات وطلبات ضائعة",
+    rowsEmpty: "لا توجد تكاليف توقف بهذه الأرقام.",
+    nHours: "ماكيناتك متوقفة حوالي <b>{h} ساعة في الشهر</b>، أي {p}% من وقت تشغيل هذه الماكينات.",
+    nSmall: "التوقفات الصغيرة تمثّل <b>{p}%</b> من وقت التوقف ({h} ساعة في الشهر)، وهي لا تظهر غالبًا في أي تقرير.",
+    nIdle: "أثناء التوقفات تدفع حوالي <b>{m}</b> في الشهر أجورًا لعمال ينتظرون. هذا المبلغ غير مضاف إلى الإجمالي حتى لا يُحسب شيء مرتين.",
+    nLog: "محسوبة من سجل التوقفات: {n} {sw} خلال {d} يوم.",
+    nLogEarly: "السجل يغطي {d} من 7 أيام. إلى أن يكتمل، النتيجة محسوبة من تقديرك.",
+    nLogEmpty: "السجل فارغ، لذلك النتيجة ما زالت محسوبة من تقديرك.",
+    wiQ: "لو قلّت التوقفات بنسبة <b>{p}%</b>",
+    wiSave: "ستوفّر حوالي",
+    wiYear: "{m} في السنة",
+    wiHow: "الصيانة المخططة هي الطريق إلى ذلك، وهذا هو عمل دائم.",
+    waTalk: "أرسل نتيجتي إلى دائم على واتساب", waShare: "شارك نتيجتي على واتساب",
+    print: "اطبع أو احفظ PDF", shareCalc: "شارك الحاسبة",
+    fine: "تقدير مبني على إجاباتك وليس مراجعة مالية. أرقامك محفوظة على هذا الجهاز فقط.",
+    methodTitle: "كيف نحسب هذه الأرقام",
+    method: [
+      "ساعات التشغيل في الشهر = أيام الأسبوع × الورديات في اليوم × ساعات الوردية × 52 ÷ 12.",
+      "ساعات التوقف في الشهر = عدد الأعطال × متوسط ساعات العطل، زائد التوقفات الصغيرة في الوردية × عدد الورديات في الشهر. مع سجل التوقفات نستخدم الوقت المسجّل محسوبًا على شهر كامل.",
+      "ساعات الإنتاج الضائعة = ساعات التوقف × نسبة الإنتاج التي تتوقف.",
+      "قيمة ساعة الإنتاج = مبيعات الشهر ÷ ساعات التشغيل، ناقص الخامات التي لم تُستخدم. لا نخصم الأجور لأنك تدفعها سواء عملت الماكينة أم لا.",
+      "الإنتاج الذي تعوّضه بساعات إضافية لا يُحسب مبيعات ضائعة. تكلفته أجر الساعات الإضافية، محسوبًا بـ 1.35 من الأجر العادي.",
+      "الإصلاحات والخامات المهدرة = التكلفة لكل عطل × عدد الأعطال في الشهر. الغرامات تُضاف كما أدخلتها.",
+      "رقم السنة هو 12 شهرًا بهذا المعدل."
+    ],
+    privacy: "لا يُرسل أي شيء مما تكتبه إلى أي مكان.",
+    reset: "ابدأ من جديد بأرقام المثال",
+    resetAsk: "هل تريد وضع أرقام المثال مكان أرقامك؟ سجل التوقفات سيبقى كما هو.",
+    footName: "دائم.", foot: "إدارة الصيانة للمصانع. خبرة الخبراء تصل إلى الفنيين عندك.",
+    barLabel: "تكلفة التوقفات", barYear: "{m} في السنة", barBtn: "التفاصيل",
+    logIntro: "اضغط الزر كلما توقفت ماكينة، واضغطه مرة أخرى عندما تعود للعمل. بعد أسبوع سيكون عندك رقم حقيقي بدل التخمين.",
+    logStart: "توقفت ماكينة الآن", logRunning: "متوقفة منذ", logStop: "عادت للعمل",
+    logAddTitle: "أو أضف توقفًا حدث من قبل",
+    logDate: "التاريخ", logMin: "مدة التوقف بالدقائق", logNote: "الماكينة أو السبب (اختياري)", logAdd: "أضف إلى السجل",
+    logErrMin: "اكتب عدد الدقائق التي توقفت فيها الماكينة.", logErrDate: "اختر تاريخ اليوم أو تاريخًا قبله.",
+    logEmpty: "لم تسجّل أي توقف بعد. إلى أن يغطي السجل 7 أيام، النتيجة محسوبة من تقديرك.",
+    logSum: "سجّلت <strong>{d} {dw}</strong>، ومجموع التوقف <strong>{h} ساعة</strong>، منها {b} {bw} مدته 30 دقيقة أو أكثر. بهذا المعدل: <strong>{m} ساعة في الشهر</strong>.",
+    logShort: " ستتحول النتيجة إلى أرقام السجل عندما يغطي 7 أيام.",
+    logClear: "امسح السجل", logClearAsk: "هل تريد حذف كل التوقفات من السجل؟",
+    logDelete: "حذف", logUnnamed: "توقف",
+    durMin: "{m} دقيقة", durHour: "{h} س {m} د",
+    toastCopied: "تم نسخ الرابط", toastAdded: "أُضيف إلى السجل",
+    waMsgTalk: "السلام عليكم، استخدمت حاسبة تكلفة التوقفات من دائم.\nالماكينات عندنا متوقفة حوالي {h} ساعة في الشهر، وهذا يكلّفنا حوالي {y} جنيه في السنة.\nأريد أن أعرف كيف نقلّل ذلك.",
+    waMsgShare: "حسبت تكلفة توقف الماكينات في مصنعنا: حوالي {y} جنيه في السنة.\nجرّب الحاسبة: {u}",
+    shareText: "حاسبة مجانية توضّح كم يكلّف توقف الماكينات مصنعك.",
+    answersTitle: "إجاباتك",
+    aSource: "طريقة حساب التوقفات", aSourceEst: "تقدير", aSourceLog: "سجل التوقفات",
+    aStopped: "ساعات التوقف في الشهر",
+    wDay: ["يوم", "يوم"], wWorkDay: ["يوم عمل", "يوم عمل"], wBreakdown: ["عطل", "عطل"], wStoppage: ["توقف", "توقف"]
+  }
+};
+
+/* ---------- storage ---------- */
+function loadStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
+}
+function saveStore() {
+  if (window.__tourActive) return;   // the guided demo never overwrites the visitor's own numbers
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ lang: lang, state: state, log: log })); } catch (e) {}
+}
+
+var stored = loadStore();
+var state = Object.assign({}, DEFAULTS, stored.state || {});
+var log = Object.assign({ start: null, entries: [], running: null }, stored.log || {});
+if (!Array.isArray(log.entries)) log.entries = [];
+var lang = (function () {
+  var q = new URLSearchParams(location.search).get("lang");
+  if (q === "en" || q === "ar") return q;
+  return stored.lang === "ar" ? "ar" : "en";
+})();
+
+/* ---------- helpers ---------- */
+function $(id) { return document.getElementById(id); }
+function t(key, vars) {
+  var s = T[lang][key];
+  if (s == null) s = T.en[key];
+  if (vars) for (var k in vars) s = s.split("{" + k + "}").join(vars[k]);
+  return s;
+}
+var nf0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+var nf1 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
+function n0(v) { return nf0.format(Math.round(v)); }
+function n1(v) { return nf1.format(Math.round(v * 10) / 10); }
+function money(v) { return lang === "ar" ? n0(v) + " جنيه" : "EGP " + n0(v); }
+function parseNum(str) {
+  str = String(str)
+    .replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); })
+    .replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); })
+    .replace(/[٬,\s]/g, "").replace("٫", ".");
+  if (str === "") return NaN;
+  var n = Number(str);
+  return isFinite(n) ? n : NaN;
+}
+function word(key, n) { var w = T[lang][key]; return Number(n) === 1 ? w[0] : w[1]; }
+function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+function todayStr() {
+  var d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function dayNumber(str) {
+  var p = str.split("-");
+  return Math.round(Date.UTC(+p[0], +p[1] - 1, +p[2]) / 86400000);
+}
+function fieldMax(key) {
+  if (key === "hours") return Math.floor(24 / state.shifts);
+  if (key === "smallMin") return state.hours * 60;
+  return FIELDS[key].max;
+}
+
+/* ---------- the calculation ---------- */
+function logStats(lg, today) {
+  var entries = lg.entries || [];
+  if (!entries.length) return { count: 0, days: 0, totalH: 0, bigH: 0, smallH: 0, bigCount: 0, factor: 0 };
+  var start = lg.start || today;
+  entries.forEach(function (e) { if (e.date < start) start = e.date; });
+  var days = Math.max(1, dayNumber(today) - dayNumber(start) + 1);
+  var bigMin = 0, smallMin = 0, bigCount = 0;
+  entries.forEach(function (e) {
+    if (e.min >= BREAKDOWN_MIN) { bigMin += e.min; bigCount++; } else { smallMin += e.min; }
+  });
+  return {
+    count: entries.length, days: days, totalH: (bigMin + smallMin) / 60,
+    bigH: bigMin / 60, smallH: smallMin / 60, bigCount: bigCount, factor: MONTH_DAYS / days
+  };
+}
+
+function compute(s, lg, today) {
+  var shiftsMonth = s.days * s.shifts * 52 / 12;
+  var monthHours = shiftsMonth * s.hours;
+  var hoursPerDay = s.shifts * s.hours;
+  var workDays = s.days * 52 / 12;
+  var ls = logStats(lg, today);
+  var useLog = s.mode === "log" && ls.count > 0 && ls.days >= LOG_MIN_DAYS;
+
+  var bigH, smallH, breakdowns;
+  if (useLog) {
+    bigH = ls.bigH * ls.factor; smallH = ls.smallH * ls.factor; breakdowns = ls.bigCount * ls.factor;
+  } else {
+    bigH = s.breakdowns * s.avgHours; smallH = s.smallMin / 60 * shiftsMonth; breakdowns = s.breakdowns;
+  }
+  var raw = bigH + smallH;
+  var over = raw > monthHours + 1e-9;
+  if (over) { var k = monthHours / raw; bigH *= k; smallH *= k; }
+  var downH = bigH + smallH;
+  var effH = downH * s.share;
+
+  var salesPerHour = monthHours > 0 ? s.sales / monthHours : 0;
+  var marginPerHour = salesPerHour * (1 - s.material / 100);
+  var workerHours = s.days * s.hours * 52 / 12;
+  var hourlyWage = workerHours > 0 ? s.wage / workerHours : 0;
+
+  var margin = Math.round(effH * (1 - s.recover) * marginPerHour);
+  var overtime = Math.round(effH * s.recover * s.workers * hourlyWage * OVERTIME_RATE);
+  var repairs = Math.round(breakdowns * s.repair);
+  var scrap = Math.round(breakdowns * s.scrap);
+  var penalty = Math.round(s.penalty);
+  var month = margin + overtime + repairs + scrap + penalty;
+
+  return {
+    monthHours: monthHours, workDays: workDays, hoursPerDay: hoursPerDay,
+    useLog: useLog, log: ls, over: over,
+    downH: downH, smallH: smallH, bigH: bigH, effH: effH, breakdowns: breakdowns,
+    stoppedPct: monthHours > 0 ? downH / monthHours * 100 : 0,
+    smallPct: downH > 0 ? smallH / downH * 100 : 0,
+    lostDays: hoursPerDay > 0 ? effH / hoursPerDay : 0,
+    parts: { margin: margin, overtime: overtime, repairs: repairs, scrap: scrap, penalty: penalty },
+    month: month, year: month * 12,
+    perHour: downH > 0 ? month / downH : 0,
+    pctSales: s.sales > 0 ? month / s.sales * 100 : 0,
+    idleWages: Math.round(effH * s.workers * hourlyWage)
+  };
+}
+window.__calc = { compute: compute, logStats: logStats, DEFAULTS: DEFAULTS };
+
+/* ---------- build the form ---------- */
+function buildFields() {
+  document.querySelectorAll("[data-field]").forEach(function (box) {
+    var key = box.getAttribute("data-field"), f = FIELDS[key], id = "f-" + key, html = "";
+    var help = f.help ? '<p class="help" data-i18n="' + key + 'Help"></p>' : "";
+    if (f.type === "seg") {
+      html = '<span class="label" id="' + id + '-l" data-i18n="' + key + '"></span>' + help +
+        '<div class="control seg" role="radiogroup" aria-labelledby="' + id + '-l" data-seg="' + key + '">' +
+        f.opts.map(function (o) {
+          return '<button type="button" role="radio" data-val="' + o[0] + '"' +
+            (f.i18nOpts ? ' data-i18n="' + o[1] + '">' : ' class="num">' + o[1]) + "</button>";
+        }).join("") + "</div>";
+    } else if (f.type === "stepper") {
+      html = '<label for="' + id + '" data-i18n="' + key + '"></label>' + help +
+        '<div class="control"><div class="stepper">' +
+        '<button type="button" data-dir="-1" data-for="' + key + '" data-i18n-aria="dec">&minus;</button>' +
+        '<input id="' + id + '" class="num" type="text" inputmode="decimal" autocomplete="off" data-key="' + key + '">' +
+        '<button type="button" data-dir="1" data-for="' + key + '" data-i18n-aria="inc">+</button>' +
+        "</div></div>";
+    } else if (f.type === "money") {
+      html = '<label for="' + id + '" data-i18n="' + key + '"></label>' + help +
+        '<div class="control"><div class="money"><span data-i18n="egp"></span>' +
+        '<input id="' + id + '" class="num" type="text" inputmode="numeric" autocomplete="off" data-key="' + key + '"></div></div>';
+    } else if (f.type === "range") {
+      html = '<label for="' + id + '" data-i18n="' + key + '"></label>' + help +
+        '<div class="control range-row"><input id="' + id + '" type="range" min="' + f.min + '" max="' + f.max +
+        '" step="' + f.inc + '" data-key="' + key + '"><output class="num" id="' + id + '-o" for="' + id + '"></output></div>';
+    }
+    box.innerHTML = html;
+  });
+}
+
+function setValue(key, v) {
+  var f = FIELDS[key];
+  if (f && f.type !== "seg") {
+    v = clamp(v, f.min, fieldMax(key));
+    v = Math.round(v * 100) / 100;
+  }
+  state[key] = v;
+  if (key === "shifts") state.hours = Math.min(state.hours, fieldMax("hours"));
+  if (key === "shifts" || key === "hours") state.smallMin = Math.min(state.smallMin, fieldMax("smallMin"));
+  if (key !== "mode") state.touched = true;
+  saveStore();
+  render();
+}
+
+function syncInputs() {
+  document.querySelectorAll("input[data-key]").forEach(function (el) {
+    var key = el.getAttribute("data-key"), f = FIELDS[key];
+    if (f.type === "range") { el.value = state[key]; return; }
+    if (document.activeElement === el) return;
+    el.value = f.type === "money" ? n0(state[key]) : String(state[key]);
+  });
+  document.querySelectorAll("[data-seg]").forEach(function (g) {
+    var key = g.getAttribute("data-seg");
+    g.querySelectorAll("button").forEach(function (b) {
+      var on = String(state[key]) === b.getAttribute("data-val");
+      b.setAttribute("aria-checked", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+    });
+  });
+}
+
+/* ---------- render ---------- */
+var shownYear = 0, animId = 0;
+function animateFig(to) {
+  var el = $("figYear"), from = shownYear;
+  cancelAnimationFrame(animId);
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || from === to) { shownYear = to; el.textContent = n0(to); return; }
+  var t0 = performance.now(), dur = 450;
+  (function tick(now) {
+    var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    shownYear = from + (to - from) * e;
+    el.textContent = n0(shownYear);
+    if (p < 1) animId = requestAnimationFrame(tick); else { shownYear = to; el.textContent = n0(to); }
+  })(t0);
+}
+
+function fmtDur(min) {
+  if (min < 60) return t("durMin", { m: n0(min) });
+  return t("durHour", { h: Math.floor(min / 60), m: Math.round(min % 60) });
+}
+function fmtDate(str) {
+  var p = str.split("-");
+  return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(lang === "ar" ? "ar-EG-u-nu-latn" : "en-GB", { day: "numeric", month: "short" });
+}
+
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.title = t("title");
+  document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = t(el.getAttribute("data-i18n")); });
+  document.querySelectorAll("[data-i18n-aria]").forEach(function (el) { el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria"))); });
+  $("langBtn").textContent = t("langBtn");
+  $("methodList").innerHTML = T[lang].method.map(function (m) { return "<li>" + m + "</li>"; }).join("");
+}
+
+function renderLog(r) {
+  var isLog = state.mode === "log";
+  $("estimateBox").hidden = isLog;
+  $("logBox").hidden = !isLog;
+  if (!isLog) return;
+  var running = !!log.running;
+  $("logStart").hidden = running;
+  $("logTimer").hidden = !running;
+  var list = $("logList");
+  list.innerHTML = "";
+  log.entries.slice().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : b.id - a.id; }).forEach(function (e) {
+    var li = document.createElement("li");
+    var when = document.createElement("span"); when.className = "when num"; when.textContent = fmtDate(e.date);
+    var what = document.createElement("span"); what.className = "what"; what.textContent = e.note || t("logUnnamed");
+    var dur = document.createElement("span"); dur.className = "dur num"; dur.textContent = fmtDur(e.min);
+    var del = document.createElement("button"); del.type = "button"; del.innerHTML = "&times;";
+    del.setAttribute("aria-label", t("logDelete")); del.setAttribute("data-del", e.id);
+    li.append(when, what, dur, del); list.appendChild(li);
+  });
+  list.hidden = !log.entries.length;
+  $("logClear").hidden = !log.entries.length;
+  var ls = r.log;
+  $("logSum").innerHTML = ls.count
+    ? t("logSum", { d: n0(ls.days), dw: word("wDay", ls.days), h: n1(ls.totalH), b: n0(ls.bigCount), bw: word("wBreakdown", ls.bigCount), m: n1(ls.totalH * ls.factor) }) + (ls.days < LOG_MIN_DAYS ? t("logShort") : "")
+    : t("logEmpty");
+}
+
+function render() {
+  var r = compute(state, log, todayStr());
+  syncInputs();
+
+  $("f-material-o").textContent = t("materialOut", { v: state.material });
+  $("factHours").textContent = t("factHours", { h: n0(r.monthHours) });
+  $("warnOver").hidden = !r.over;
+  $("exampleNote").hidden = state.touched;
+  $("exampleTag").hidden = state.touched;
+
+  renderLog(r);
+
+  animateFig(r.year);
+  $("unitYear").textContent = t("unitYear");
+  $("stMonth").textContent = money(r.month);
+  $("stHour").textContent = money(r.perHour);
+  $("stPct").textContent = n1(r.pctSales) + "%";
+
+  // month board
+  var cells = Math.max(1, Math.round(r.workDays)), board = $("board");
+  if (board.children.length !== cells) {
+    board.innerHTML = "";
+    for (var i = 0; i < cells; i++) { var c = document.createElement("span"); c.className = "cell"; c.appendChild(document.createElement("i")); board.appendChild(c); }
+  }
+  var lost = Math.min(cells, r.lostDays);
+  Array.prototype.forEach.call(board.children, function (c, i) {
+    c.firstChild.style.inlineSize = (clamp(lost - i, 0, 1) * 100) + "%";
+  });
+  $("boardCap").innerHTML = r.lostDays > 0.005
+    ? t("boardCap", { d: n1(r.lostDays), dw: word("wWorkDay", n1(r.lostDays)), y: n0(r.lostDays * 12) + " " + word("wDay", n0(r.lostDays * 12)) })
+    : t("boardCapZero");
+
+  // cost rows
+  var rows = [["rMargin", r.parts.margin], ["rOvertime", r.parts.overtime], ["rRepairs", r.parts.repairs], ["rScrap", r.parts.scrap], ["rPenalty", r.parts.penalty]]
+    .filter(function (x) { return x[1] > 0; }).sort(function (a, b) { return b[1] - a[1]; });
+  var top = rows.length ? rows[0][1] : 1;
+  $("rows").innerHTML = rows.length ? rows.map(function (x) {
+    return '<li><div class="line"><span>' + t(x[0]) + '</span><span class="num">' + money(x[1]) + '</span></div>' +
+      '<div class="track"><i style="width:' + Math.max(2, x[1] / top * 100) + '%"></i></div></li>';
+  }).join("") : '<li class="line"><span>' + t("rowsEmpty") + "</span></li>";
+
+  // notes
+  var notes = [];
+  if (state.mode === "log") notes.push(r.useLog ? t("nLog", { n: n0(r.log.count), sw: word("wStoppage", r.log.count), d: n0(r.log.days) })
+    : r.log.count ? t("nLogEarly", { d: n0(r.log.days) }) : t("nLogEmpty"));
+  if (r.downH > 0) notes.push(t("nHours", { h: n1(r.downH), p: n1(r.stoppedPct) }));
+  if (r.smallH > 0 && r.downH > 0) notes.push(t("nSmall", { p: n0(r.smallPct), h: n1(r.smallH) }));
+  if (r.idleWages > 0) notes.push(t("nIdle", { m: money(r.idleWages) }));
+  $("notes").innerHTML = notes.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+
+  // what if
+  $("wiRange").value = state.whatif;
+  $("wiQ").innerHTML = t("wiQ", { p: state.whatif });
+  $("wiFig").textContent = t("wiYear", { m: money(r.year * state.whatif / 100) });
+
+  // actions
+  var url = location.href.split("#")[0].split("?")[0];
+  var hasNumber = /^\d{8,15}$/.test(CONFIG.whatsappNumber);
+  var msg = hasNumber ? t("waMsgTalk", { h: n1(r.downH), y: n0(r.year) }) : t("waMsgShare", { y: n0(r.year), u: url });
+  $("waBtn").href = "https://wa.me/" + (hasNumber ? CONFIG.whatsappNumber : "") + "?text=" + encodeURIComponent(msg);
+  $("waBtn").textContent = t(hasNumber ? "waTalk" : "waShare");
+
+  $("barFig").textContent = t("barYear", { m: money(r.year) });
+
+  // printed answers
+  var a = [
+    [t("days"), state.days], [t("shifts"), state.shifts], [t("hours"), state.hours],
+    [t("aSource"), r.useLog ? t("aSourceLog") : t("aSourceEst")],
+    [t("aStopped"), n1(r.downH)],
+    [t("share"), Math.round(state.share * 100) + "%"],
+    [t("sales"), money(state.sales)], [t("material"), state.material],
+    [t("workers"), n0(state.workers)], [t("wage"), money(state.wage)],
+    [t("recover"), Math.round(state.recover * 100) + "%"],
+    [t("repair"), money(state.repair)], [t("scrap"), money(state.scrap)], [t("penalty"), money(state.penalty)]
+  ];
+  $("answers").innerHTML = a.map(function (x) { return "<tr><td>" + x[0] + "</td><td>" + x[1] + "</td></tr>"; }).join("");
+}
+
+/* ---------- events ---------- */
+function toast(text) {
+  if (window.__tourActive) return;
+  var el = $("toast"); el.textContent = text; el.hidden = false;
+  clearTimeout(toast.id); toast.id = setTimeout(function () { el.hidden = true; }, 2200);
+}
+
+document.addEventListener("click", function (ev) {
+  var b = ev.target.closest("button");
+  if (!b) return;
+  if (b.hasAttribute("data-dir")) {
+    var key = b.getAttribute("data-for"), f = FIELDS[key], dir = +b.getAttribute("data-dir");
+    var v = Math.round((state[key] + dir * f.inc) / f.inc) * f.inc;
+    setValue(key, v);
+    var inp = $("f-" + key); if (inp) inp.value = String(state[key]);
+    return;
+  }
+  var seg = b.closest("[data-seg]");
+  if (seg) {
+    var k = seg.getAttribute("data-seg"), raw = b.getAttribute("data-val");
+    setValue(k, k === "mode" ? raw : Number(raw));
+    return;
+  }
+  if (b.hasAttribute("data-del")) {
+    var id = +b.getAttribute("data-del");
+    log.entries = log.entries.filter(function (e) { return e.id !== id; });
+    if (!log.entries.length && !log.running) log.start = null;
+    saveStore(); render();
+  }
+});
+
+document.addEventListener("keydown", function (ev) {
+  var b = ev.target.closest && ev.target.closest("[data-seg] button");
+  if (!b) return;
+  var keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+  if (!(ev.key in keys)) return;
+  ev.preventDefault();
+  var step = keys[ev.key];
+  if ((ev.key === "ArrowRight" || ev.key === "ArrowLeft") && document.documentElement.dir === "rtl") step = -step;
+  var all = Array.prototype.slice.call(b.parentNode.children);
+  var next = all[(all.indexOf(b) + step + all.length) % all.length];
+  next.click(); next.focus();
+});
+
+document.addEventListener("input", function (ev) {
+  var el = ev.target, key = el.getAttribute && el.getAttribute("data-key");
+  if (!key) return;
+  var v = parseNum(el.value);
+  if (isNaN(v)) return;
+  setValue(key, v);
+});
+document.addEventListener("focusout", function (ev) {
+  var el = ev.target;
+  if (el.getAttribute && el.getAttribute("data-key")) syncInputs();
+});
+document.addEventListener("focusin", function (ev) {
+  var el = ev.target;
+  if (el.getAttribute && el.getAttribute("data-key") && el.type === "text") el.select();
+});
+
+$("wiRange").addEventListener("input", function () { state.whatif = +this.value; saveStore(); render(); });
+
+$("langBtn").addEventListener("click", function () {
+  lang = lang === "ar" ? "en" : "ar";
+  saveStore(); applyI18n(); render();
+});
+
+$("heroLog").addEventListener("click", function () {
+  setValue("mode", "log");
+  $("step2").scrollIntoView({ block: "start" });
+});
+
+$("resetBtn").addEventListener("click", function () {
+  if (!confirm(t("resetAsk"))) return;
+  state = Object.assign({}, DEFAULTS); saveStore(); render();
+});
+
+$("printBtn").addEventListener("click", function () { window.print(); });
+
+$("shareBtn").addEventListener("click", function () {
+  var url = location.href.split("#")[0].split("?")[0];
+  if (navigator.share) { navigator.share({ title: t("h1"), text: t("shareText"), url: url }).catch(function () {}); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function () { toast(t("toastCopied")); }, function () { prompt("", url); });
+  } else { prompt("", url); }
+});
+
+/* ---------- stoppage log ---------- */
+var nextId = log.entries.reduce(function (m, e) { return Math.max(m, e.id); }, 0) + 1;
+function addEntry(date, min, note) {
+  log.entries.push({ id: nextId++, date: date, min: min, note: note });
+  if (!log.start || date < log.start) log.start = date;
+  state.touched = true;
+  saveStore(); render();
+}
+function tickClock() {
+  if (!log.running) return;
+  var s = Math.max(0, Math.floor((Date.now() - log.running.t0) / 1000));
+  var p = function (n) { return String(n).padStart(2, "0"); };
+  $("logClock").textContent = p(Math.floor(s / 3600)) + ":" + p(Math.floor(s % 3600 / 60)) + ":" + p(s % 60);
+}
+setInterval(tickClock, 1000);
+
+$("logStart").addEventListener("click", function () {
+  log.running = { t0: Date.now() };
+  if (!log.start) log.start = todayStr();
+  saveStore(); tickClock(); render();
+});
+$("logStop").addEventListener("click", function () {
+  if (!log.running) return;
+  var min = Math.max(1, Math.round((Date.now() - log.running.t0) / 60000));
+  log.running = null;
+  addEntry(todayStr(), min, $("logNote").value.trim());
+  $("logNote").value = "";
+  toast(t("toastAdded"));
+});
+$("logAdd").addEventListener("click", function () {
+  var err = $("logErr"), date = $("logDate").value || todayStr(), min = parseNum($("logMin").value);
+  err.hidden = true;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date > todayStr()) { err.textContent = t("logErrDate"); err.hidden = false; return; }
+  if (isNaN(min) || min <= 0 || min > 60 * 24 * 31) { err.textContent = t("logErrMin"); err.hidden = false; return; }
+  addEntry(date, Math.round(min), $("logNote").value.trim());
+  $("logMin").value = ""; $("logNote").value = "";
+  toast(t("toastAdded"));
+});
+$("logClear").addEventListener("click", function () {
+  if (!confirm(t("logClearAsk"))) return;
+  log = { start: null, entries: [], running: null }; saveStore(); render();
+});
+
+/* ---------- start ---------- */
+buildFields();
+applyI18n();
+$("logDate").value = todayStr();
+$("logDate").max = todayStr();
+shownYear = compute(state, log, todayStr()).year;
+render();
+tickClock();
+
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(function (es) {
+    $("bar").classList.toggle("off", es[0].isIntersecting);
+  }, { threshold: 0.05 }).observe($("result"));
+} else { $("bar").classList.remove("off"); }
+
+/* Keep the result beside the questions on wide screens, without ever hiding its lower part. */
+function placeResult() {
+  var col = document.querySelector(".result-col");
+  col.style.top = Math.min(16, window.innerHeight - col.offsetHeight - 16 - (window.__tourBar || 0)) + "px";
+}
+if ("ResizeObserver" in window) new ResizeObserver(placeResult).observe($("result"));
+window.addEventListener("resize", placeResult);
+placeResult();
+</script>
+<script src="tour.js"></script>
+</body>
+</html>
